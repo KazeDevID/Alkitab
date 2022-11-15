@@ -1,0 +1,28 @@
+name: Workflows Build Application
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Go 1.14.3
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.14.3
+        id: go
+
+      - name: Perform Dependencies
+        run: make dep
+
+      - name: Perform Unit Testing
+        run: make test
+
+      - name: Build main application
+        run: go build .
